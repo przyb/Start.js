@@ -134,8 +134,8 @@
 				
 				var tkn,i;
 				for(i in route) {
-					tkn = route[i].split('&');
-					params[tkn[0]] = tkn[1];
+					tkn = route[i].split('=');
+					result.params[tkn[0]] = tkn[1];
 				}
 			}
 			
@@ -333,7 +333,7 @@
 			}
 			
 			if (changeState) {
-				History.pushState(url);
+				History.pushState(null, null, url);
 			} else {
 				this.run(url);
 			}
@@ -376,6 +376,7 @@
 					controllerInstance[actionName+'Action'].call(controllerInstance);
 				}
 				this._currentController = controllerInstance;
+				this._controllerInstances[moduleName] = controllerInstance;
 			}
 			
 			return this;

@@ -32,11 +32,46 @@
 </head>
 
 <body>
-	
+<?php 
+$action = @$_GET['action'];
+$actions = array(
+	'index',
+	'page1',
+	'page2'
+);
+
+if (!in_array($action, $actions)) {
+	$action = 'index';
+}
+?>
 <div id="wrapper">
 	<header>
 		<h1>start.js</h1>
+		<nav>
+			<ul>
+				<li><a class="ajax<?php if ($action == 'index'): ?> active<?php endif; ?>" href="?action=index">home</a>
+				<li><a class="ajax<?php if ($action == 'page1'): ?> active<?php endif; ?>" href="?action=page1">page 1</a>
+				<li><a class="ajax<?php if ($action == 'page2'): ?> active<?php endif; ?>" href="?action=page2">page 2</a>
+			</ul>
+		</nav>
 	</header>
+	
+	<div id="content">
+	<?php switch ($action) {
+		case 'index':
+		default:
+		echo '<h1>Index</h1>';
+		break;
+		
+		case 'page1':
+		echo '<h1>Page 1</h1>';
+		break;
+		
+		case 'page2':
+		echo '<h1>Page 2</h1>';
+		break;
+	} ?>
+	</div>
 
 	<footer>
 		

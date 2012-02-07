@@ -15,12 +15,31 @@ Start.bootstrap(function($, History, _, _str, undefined) {
 		},
 		
 		indexAction: function() {
-			Start.Tools.log(this.getRequest().getParams());
+			this.switchPage(this.getRequest().getRouteRaw());
+			Start.Tools.log('indexAction');
+		},
+		
+		page1Action: function() {
+			this.switchPage(this.getRequest().getRouteRaw());
+			Start.Tools.log('page1Action');
+		},
+		
+		page2Action: function() {
+			this.switchPage(this.getRequest().getRouteRaw());
+			Start.Tools.log('page2Action');
+		},
+		
+		switchPage: function(rawRoute) {
+			// Start.Tools.safeAJAX($.get(rawRoute, function(response) {
+			// 		Start.Tools.log(response);
+			// 	}));
 		}
 	});
 	
 	$('a.ajax').click(_.bind(function(e) {
+		e.preventDefault();
 		var self = $(e.currentTarget);
 		this.invokeUrl(self.attr('href'));
+		return false;
 	}, this));
 });
