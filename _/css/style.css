@@ -1,0 +1,38 @@
+/* Ok, this is where the fun starts.
+-------------------------------------------------------------------------------*/
+body { font-size: 11px; font-family: 'Verdana'; background: #fff; }
+body.loading { background: #fafafa; }
+body, select, input, textarea { color: #949494; }
+
+a { color: #f70000; text-decoration: none; }
+a:hover { color: #000; }
+
+::-moz-selection{ background: #fff; color: #c1080d; text-shadow: none; }
+::selection { background: #fff; color: #c1080d; text-shadow: none; }
+
+a:link { -webkit-tap-highlight-color: #fff; }
+
+.unselectable { -webkit-user-select: none; -moz-user-select: none; -o-user-select: none; -khtml-user-select: none; user-select: none; }
+
+#preloader { display: none; }
+.loading #preloader { display: block; }
+
+#wrapper { display: block; }
+.loading #wrapper { display: none; }
+
+/* Media queries!
+-------------------------------------------------------------------------------*/
+
+/* Consider this: www.cloudfour.com/css-media-query-for-mobile-is-fools-gold/ */
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+}
+
+@media all and (orientation: portrait) {
+	
+}
+
+@media all and (orientation: landscape) {
+	
+}
+
