@@ -19,11 +19,11 @@
 				context = '__DEFAULT__';
 			}
 			
-			if (_xhrContext[context] && _xhrContext[context].readyState != 4) {
-				_xhrContext[context].abort();
+			if (this._xhrContext[context] && this._xhrContext[context].readyState != 4) {
+				this._xhrContext[context].abort();
 			}
 			
-			_xhrContext[context] = xhr;
+			this._xhrContext[context] = xhr;
 			
 			return xhr;
 		}
@@ -72,27 +72,57 @@
 	 * Request object
 	 */
 	Start.Lib.Request = Class.extend({
-		init: function(route, routeRaw, params, paramsRaw) {
+		init: function(route, routeRaw, params, paramsRaw, isInitial) {
 			this._route		= _.isString(route) ? route : '';
 			this._routeRaw	= _.isString(routeRaw) ? routeRaw : '';
 			this._params	= _.isObject(params) ? params : {};
 			this._paramsRaw	= _.isString(paramsRaw) ? paramsRaw : '';
+			this._isInitial	= _.isBoolean(isInitial) ? isInitial : false;
+		},
+		
+		getIsInitial: function() {
+			return this._isInitial;
+		},
+		
+		setIsInitial: function(isInitial) {
+			this._isInitial = isInitial;
+			return this;
 		},
 	
 		getRoute: function() {
 			return this._route;
 		},
+		
+		setRoute: function(route) {
+			this._route = route;
+			this;
+		},
 	
 		getRouteRaw: function() {
 			return this._routeRaw;
+		},
+		
+		setRouteRaw: function(routeRaw) {
+			this._routeRaw = routeRaw;
+			return this;
 		},
 	
 		getParams: function() {
 			return this._params;
 		},
+		
+		setParams: function(params) {
+			this._params = params;
+			return this;
+		},
 	
 		getParamsRaw: function() {
 			return this._paramsRaw;
+		},
+		
+		setParamsRaw: function(paramsRaw) {
+			this._paramsRaw = paramsRaw;
+			return this;
 		},
 		
 		getParam: function(name, defaultValue) {
@@ -240,13 +270,13 @@
 			}
 			
 			if (!this.getRouter() instanceof Start.Lib.Router.Abstract) {
-				this.setRequest(new Start.Lib.Router.Simple);
+				this.setRouter(new Start.Lib.Router.Simple);
 			}
 			
-			this.run(History.getState().hash.replace('://', ''));
+			this.run(History.getState().hash.replace('://', ''), true);
 			
 			$(window).bind('statechange', _.bind(function(e) {
-				this.run(History.getState().hash.replace('://', ''));
+				this.run(History.getState().hash.replace('://', ''), false);
 			}, this));
 		},
 		
@@ -302,12 +332,13 @@
 			return this;
 		},
 		
-		run: function(routeRaw) {
+		run: function(routeRaw, isInitial) {
+			isInitial = _.isBoolean(isInitial) ? isInitial : false;
 			this.setRequest(
 				this.getRouter().parse(
 					routeRaw
-				));
-				
+				).setIsInitial(isInitial));
+			
 			this.control();
 			
 			return this;
@@ -363,13 +394,15 @@
 			}
 			
 			if (controllerInstance instanceof Start.Lib.Controller) {
-				if (this._currentController instanceof Start.Lib.Controller) {
+				if (this._currentController != controllerInstance
+					&& this._currentController instanceof Start.Lib.Controller) {
 					if (_.isFunction(this._currentController.onLeaveContext)) {
 						this._currentController.onLeaveContext.call(this._currentController);
 					}
 				}
 				controllerInstance.setContext(this);
-				if (_.isFunction(controllerInstance.onEnterContext)) {
+				if (this._currentController != controllerInstance
+					&& _.isFunction(controllerInstance.onEnterContext)) {
 					controllerInstance.onEnterContext.call(controllerInstance);
 				}
 				if (_.isFunction(controllerInstance[actionName+'Action'])) {

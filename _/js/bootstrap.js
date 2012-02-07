@@ -30,9 +30,14 @@ Start.bootstrap(function($, History, _, _str, undefined) {
 		},
 		
 		switchPage: function(rawRoute) {
-			// Start.Tools.safeAJAX($.get(rawRoute, function(response) {
-			// 		Start.Tools.log(response);
-			// 	}));
+			if (!this.getRequest().getIsInitial()) {
+				Start.Tools.safeAJAX($.get(rawRoute, function(response) {
+					var newContent = $(response).find('#content').html();
+					$('#content').fadeOut(function() {
+						$(this).html(newContent).fadeIn();
+					});
+				}));
+			}
 		}
 	});
 	

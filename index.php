@@ -49,9 +49,9 @@ if (!in_array($action, $actions)) {
 		<h1>start.js</h1>
 		<nav>
 			<ul>
-				<li><a class="ajax<?php if ($action == 'index'): ?> active<?php endif; ?>" href="?action=index">home</a>
-				<li><a class="ajax<?php if ($action == 'page1'): ?> active<?php endif; ?>" href="?action=page1">page 1</a>
-				<li><a class="ajax<?php if ($action == 'page2'): ?> active<?php endif; ?>" href="?action=page2">page 2</a>
+				<li><a class="ajax" href="?action=index">home</a>
+				<li><a class="ajax" href="?action=page1">page 1</a>
+				<li><a class="ajax" href="?action=page2">page 2</a>
 			</ul>
 		</nav>
 	</header>
